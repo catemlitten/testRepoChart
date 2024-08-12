@@ -44,9 +44,12 @@ jobs:
           mkdir -p state/${{ inputs.environment }}
           echo 'release: "${{ inputs.build_id }}"' > state/${{ inputs.environment }}/version.yml
           touch state/${{ inputs.environment }}/pinned
+          git add -A
+          git commit -m "Pinning ${{ inputs.build_id }} for ${{inputs.environment }}"
+          git push origin main
       
-      - name: Commit + push
-        uses: EndBug/add-and-commit@v9.1.4
-        with:
-          add: 'state'
-          default_author: "github_actions"
+      # - name: Commit + push
+      #   uses: EndBug/add-and-commit@v9.1.4
+      #   with:
+      #     add: 'state'
+      #     default_author: "github_actions"
