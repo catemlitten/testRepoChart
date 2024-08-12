@@ -20,6 +20,11 @@ jobs:
     runs-on:
       - ubuntu-latest
     steps:
+      - name: Install SSH Client
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.CHART_DEPLOY_NO_PHRASE }}
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -27,12 +32,8 @@ jobs:
           fetch-depth: 1
           persist-credentials: true
 
-      - name: Install SSH Client
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.CHART_DEPLOY_NO_PHRASE }}
-
       - name: pin-service
+        shell: bash
         run: |
           mkdir -p state/${{ inputs.environment }}
           echo 'release: "${{ inputs.build_id }}"' > state/${{ inputs.environment }}/version.yml
