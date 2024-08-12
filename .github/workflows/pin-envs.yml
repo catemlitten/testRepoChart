@@ -1,0 +1,37 @@
+on:
+  workflow_dispatch:
+    inputs:
+      build_id:
+        type: string
+        required: true
+        description: Build id to pin to
+      environment:
+        type: choice
+        required: true
+        description: The env to pin
+        options:
+          - staging
+          - prod
+
+name: Pin env
+
+jobs:
+  pin-service:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Pin it
+        run: |
+          mkdir -p state/${{ inputs.environment }}
+          echo 'release: "${{ inputs.build_id }}"' > state/${{ inputs.environment }}/version.yml
+          touch state/${{ inputs.environment }}/pinned
+      
+      - name: Commit + push
+        uses: EndBug/add-and-commit
+        with:
+          add: 'state'
+          default_author: "github_actions"
