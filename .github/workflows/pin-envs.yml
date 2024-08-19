@@ -44,6 +44,9 @@ jobs:
           git add -A
           git commit -m "Pinning ${{ inputs.build_id }} for ${{inputs.environment }}"
           git push origin main
+
+          json="{"menu": {"id": "file","value": "File"}}"
+          cat $json | jq .
       
       # - name: Commit + push
       #   uses: EndBug/add-and-commit@v9.1.4
