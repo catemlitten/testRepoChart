@@ -45,7 +45,7 @@ jobs:
           git commit -m "Pinning ${{ inputs.build_id }} for ${{inputs.environment }}"
           git push origin main
 
-          json="{"menu": {"id": "file","value": "File"}}"
+          json='{"userId":1,"id":1}'
           echo $json | jq .
       
       # - name: Commit + push
