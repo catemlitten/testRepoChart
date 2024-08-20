@@ -43,15 +43,8 @@ jobs:
       - name: write to git
         shell: bash
         run: |
-          mkdir -p state/${{ inputs.environment }}
-          echo 'release: "${{ inputs.build_id }}"' > state/${{ inputs.environment }}/version.yml
-          touch state/${{ inputs.environment }}/pinned
           git config --global user.email "deploys@blah.com"
           git config --global user.name "Deploy Github Action"
           git add -A
-          git commit -m "Pinning ${{ inputs.build_id }} for ${{inputs.environment }}"
+          git commit -m "Version updated for ${{inputs.environment }}"
           git push origin main
-
-          json='{"userId":1,"id":1}'
-          echo $json | jq .
-      
