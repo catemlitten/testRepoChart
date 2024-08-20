@@ -48,8 +48,3 @@ jobs:
           json='{"userId":1,"id":1}'
           echo $json | jq .
       
-      # - name: Commit + push
-      #   uses: EndBug/add-and-commit@v9.1.4
-      #   with:
-      #     add: 'state'
-      #     default_author: "github_actions"
