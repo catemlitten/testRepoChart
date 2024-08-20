@@ -18,7 +18,7 @@ var services []string
 
 // latest-build-id lives at the root of the kubernetes dir, outside of all the envs and their services
 func getLatestBuildID(ctx context.Context) (string, error) {
-	read, err := os.ReadFile("../../state/latest-build-id")
+	read, err := os.ReadFile("state/latest-build-id")
 
 	if err != nil {
 		return "", err
@@ -37,7 +37,7 @@ type serviceValues struct {
 
 // sets the version inside each service
 func setBuildID(ctx context.Context, env, service, buildID string) error {
-	dirName := path.Join("../../state", env, "argo", service)
+	dirName := path.Join("state", env, "argo", service)
 	fileName := "version.yml"
 
 	fullFileName := path.Join(dirName, fileName)
@@ -65,7 +65,7 @@ func setBuildID(ctx context.Context, env, service, buildID string) error {
 
 // checks if the overall env (ex: staging) is pinned
 func isEnvPinned(env string) (bool, error) {
-	_, err := os.Stat(filepath.Join("../../state", env, "pinned"))
+	_, err := os.Stat(filepath.Join("state", env, "pinned"))
 	if os.IsNotExist(err) {
 		return false, nil
 	}
@@ -77,7 +77,7 @@ func isEnvPinned(env string) (bool, error) {
 
 // checks if an individual services (ex: email) is pinned
 func isServicePinned(env string, service string) (bool, error) {
-	_, err := os.Stat(filepath.Join("../../state", env, "argo", service, "pinned"))
+	_, err := os.Stat(filepath.Join("state", env, "argo", service, "pinned"))
 	if os.IsNotExist(err) {
 		return false, nil
 	}
@@ -119,7 +119,7 @@ func mainerr() error {
 	}
 
     // Get a list of services from to update by listing the dirs under the regional env
-	entries, err := os.ReadDir("../../state/staging/argo")
+	entries, err := os.ReadDir("state/staging/argo")
     if err != nil {
         log.Fatal(err)
     }
