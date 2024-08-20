@@ -9,7 +9,7 @@ on:
           - staging
           - prod
 
-name: Pin env
+name: Build
 
 jobs:
   copy-files:
