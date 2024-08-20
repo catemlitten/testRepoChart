@@ -112,9 +112,9 @@ func mainerr() error {
 
 	if pinned {
         fmt.Printf("%v is pinned", *env) 
-		return nil
+		exit 0 // no need to go further, but gracefully exit
 	}
-	fmt.Printf("%v is not pinned", *env) 
+
 	err = setBuildID(ctx, *env, "", latestBuildID)
 	if err != nil {
 		return err
