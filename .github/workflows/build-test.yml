@@ -43,8 +43,12 @@ jobs:
       - name: write to git
         shell: bash
         run: |
-          git config --global user.email "deploys@blah.com"
-          git config --global user.name "Deploy Github Action"
-          git add -A
-          git commit -m "Version updated for ${{inputs.environment }}"
-          git push origin main
+          if [[ $(git status --porcelain | wc -l) -gt 0 ]]; then
+            git config --global user.email "deploys@blah.com"
+            git config --global user.name "Deploy Github Action"
+            git add -A
+            git commit -m "Version updated for ${{inputs.environment }}"
+            git push origin main
+          else
+            echo "No change in latest version or deploy is pinned"
+          fi

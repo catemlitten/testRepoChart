@@ -103,7 +103,6 @@ func mainerr() error {
 	l.Printf("Got %s for latest build id\n", latestBuildID)
 
     // Check if whole environment is pinned right now
-	fmt.Printf("Checking if %v is pinned", *env) 
     pinned, err := isEnvPinned(*env)
 
 	if err != nil {
@@ -111,7 +110,7 @@ func mainerr() error {
 	}
 
 	if pinned {
-        fmt.Printf("%v is pinned", *env) 
+        fmt.Printf("\n%v is pinned, not deploying", *env) 
 		os.Exit(0) // no need to go further, but gracefully exit
 	}
 
