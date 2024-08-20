@@ -38,6 +38,7 @@ type serviceValues struct {
 // sets the version inside each service
 func setBuildID(ctx context.Context, env, service, buildID string) error {
 	dirName := path.Join("state", env, "argo", service)
+	l.Printf("%v is the path", dirName)
 	fileName := "version.yml"
 
 	fullFileName := path.Join(dirName, fileName)
@@ -102,6 +103,7 @@ func mainerr() error {
 	l.Printf("Got %s for latest build id\n", latestBuildID)
 
     // Check if whole environment is pinned right now
+	fmt.Printf("Checking if %v is pinned", *env) 
     pinned, err := isEnvPinned(*env)
 
 	if err != nil {
@@ -112,7 +114,7 @@ func mainerr() error {
         fmt.Printf("%v is pinned", *env) 
 		return nil
 	}
-
+	fmt.Printf("%v is not pinned", *env) 
 	err = setBuildID(ctx, *env, "", latestBuildID)
 	if err != nil {
 		return err
