@@ -52,7 +52,7 @@ func setBuildID(ctx context.Context, env, service, buildID string) error {
 		return err
 	}
 
-	err := os.MkdirAll(dirName, 0755)
+	err = os.MkdirAll(dirName, 0755)
 	if err != nil {
 		return err
 	}
