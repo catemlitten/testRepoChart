@@ -1,0 +1,55 @@
+on:
+    workflow_dispatch:
+      inputs:
+        service:
+          type: string
+          required: true
+          description: The service to unpin
+        environment:
+          type: choice
+          required: true
+          description: The environment to unpin in
+          options:
+            - kibble-eu
+  
+name: Unpin Service
+
+jobs:
+    unpin-environment:
+        runs-on:
+            - ubuntu-latest
+        steps:
+            - name: Install SSH Client
+              uses: webfactory/ssh-agent@v0.9.0
+              with:
+                ssh-private-key: ${{ secrets.CHART_DEPLOY_NO_PHRASE }} 
+
+            - name: Checkout
+              uses: actions/checkout@v4
+              with:
+                ref: 'main'
+                ssh-key: ${{ secrets.CHART_DEPLOY_NO_PHRASE }}
+                fetch-depth: 1
+                persist-credentials: true
+
+
+            - name: Unpin services in environment
+              shell: bash
+              env:
+                REPOSITORY: hound-artifact
+              run: |
+                # TODO: Logic check if service exists?
+                # check if entired env is pinned, if yes bail out on pinning branch
+                PIN_FILE="kubernetes/${{ inputs.environment }}/argo/${{ inputs.service}}/pinned"
+                if [ -f $PIN_FILE ]; then
+                    rm $PIN_FILE
+                else
+                    echo "No pin file to remove from ${{ inputs.service }} in ${{ inputs.environment }}"
+                fi
+
+                # ship it
+                git config --global user.email "deploys@honeycomb.io" # this email may or may not exist
+                git config --global user.name "Deploy Github Action"
+                git add -A
+                git commit -m "Removing pin from ${{ inputs.service }} in ${{ inputs.environment }}"
+                git push origin main
