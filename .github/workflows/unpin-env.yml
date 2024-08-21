@@ -44,12 +44,3 @@ jobs:
                 git add -A
                 git commit -m "Removing pin from ${{ inputs.environment }}"
                 git push origin main
-
-            - name: Notify Slack of unpinning
-              id: slack
-              uses: slackapi/slack-github-action@v1.26.0
-              with:
-                channel-id: 'C10FQV8RE' # ops
-                slack-message: "${{ github.actor }} unpinned ${{ inputs.service }} in environment: ${{ inputs.environment }}"
-              env:
-                SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # TODO: is this in secrets already? if not add it
