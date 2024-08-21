@@ -40,7 +40,7 @@ jobs:
               run: |
                 # TODO: Logic check if service exists?
                 # check if entired env is pinned, if yes bail out on pinning branch
-                PIN_FILE="kubernetes/${{ inputs.environment }}/argo/${{ inputs.service}}/pinned"
+                PIN_FILE="state/${{ inputs.environment }}/argo/${{ inputs.service}}/pinned"
                 if [ -f $PIN_FILE ]; then
                     rm $PIN_FILE
                 else
