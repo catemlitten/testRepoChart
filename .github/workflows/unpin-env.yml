@@ -18,13 +18,13 @@ jobs:
             - name: Install SSH Client
               uses: webfactory/ssh-agent@v0.9.0
               with:
-                ssh-private-key: ${{ secrets.ARGO_WRITE_KEY }} # this is a deploy key with write access to this (infra) repo saved in the repo secret variables
+                ssh-private-key: ${{ secrets.CHART_DEPLOY_NO_PHRASE }} # this is a deploy key with write access to this (infra) repo saved in the repo secret variables
 
             - name: Checkout
               uses: actions/checkout@v4
               with:
                 ref: 'main'
-                ssh-key: ${{ secrets.ARGO_WRITE_KEY }}
+                ssh-key: ${{ secrets.CHART_DEPLOY_NO_PHRASE }}
                 fetch-depth: 1
                 persist-credentials: true
 
