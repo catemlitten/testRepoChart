@@ -11,7 +11,6 @@ on:
         description: The env to pin
         options:
           - staging
-          - prod
 
 name: Pin env
 
@@ -36,15 +35,15 @@ jobs:
       - name: pin-service
         shell: bash
         run: |
+          CIRCLE_BUILD_NUMBER=123456
           mkdir -p state/${{ inputs.environment }}
-          echo 'release: "${{ inputs.build_id }}"' > state/${{ inputs.environment }}/version.yml
+          echo 'release_id: "${{ inputs.build_id }}"\nglobal.releast_id: "${{ inputs.build_id  }}"\nglobal.infra_build_num: "${CIRCLE_BUILD_NUMBER}"' > state/${{ inputs.environment }}/argo/version.yml
+          
+          go run ./cmd/pin-environment --env ${{ inputs.environment }} --buildId ${{ inputs.build_id }} --buildNum $CIRCLE_BUILD_NUMBER
+
           touch state/${{ inputs.environment }}/pinned
-          git config --global user.email "deploys@blah.com"
+          git config --global user.email "deploys@blah.io" # this email may or may not exist
           git config --global user.name "Deploy Github Action"
           git add -A
-          git commit -m "Pinning ${{ inputs.build_id }} for ${{inputs.environment }}"
+          git commit -m "Pinning ${{ inputs.build_id }} for ${{ inputs.environment }}"
           git push origin main
-
-          json='{"userId":1,"id":1}'
-          echo $json | jq .
-      
