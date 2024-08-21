@@ -129,7 +129,7 @@ func mainerr() error {
 	}
 
     // Get a list of services from to update by listing the dirs under the regional env
-	fmt.Prinln("getting services") 
+	fmt.Println("getting services") 
 	entries, err := os.ReadDir("state/staging/argo")
     if err != nil {
         log.Fatal(err)
@@ -139,7 +139,7 @@ func mainerr() error {
             fmt.Println(e.Name()) // debug, can be removed?
 			services = append(services, e.Name())
     }
-	fmt.Prinln("in theory my services should show above this line") 
+	fmt.Println("in theory my services should show above this line") 
     for _, service := range services {
         pinned, err := isServicePinned(*env, service)
         if pinned {
