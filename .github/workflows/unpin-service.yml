@@ -38,17 +38,15 @@ jobs:
               env:
                 REPOSITORY: hound-artifact
               run: |
-                # TODO: Logic check if service exists?
-                # check if entired env is pinned, if yes bail out on pinning branch
                 PIN_FILE="state/${{ inputs.environment }}/argo/${{ inputs.service}}/pinned"
                 if [ -f $PIN_FILE ]; then
                     rm $PIN_FILE
                 else
-                    echo "No pin file to remove from ${{ inputs.service }} in ${{ inputs.environment }}"
+                    echo "No pin file to remove from state/${{ inputs.environment }}/argo/${{ inputs.service}}"
                 fi
 
                 # ship it
-                git config --global user.email "deploys@honeycomb.io" # this email may or may not exist
+                git config --global user.email "deploys@blah.io" # this email may or may not exist
                 git config --global user.name "Deploy Github Action"
                 git add -A
                 git commit -m "Removing pin from ${{ inputs.service }} in ${{ inputs.environment }}"
