@@ -10,7 +10,7 @@ on:
           required: true
           description: The environment to unpin in
           options:
-            - kibble-eu
+            - staging
   
 name: Unpin Service
 
