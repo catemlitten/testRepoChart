@@ -44,9 +44,12 @@ func setBuildID(ctx context.Context, env, service, buildID string) error {
 	fullFileName := path.Join(dirName, fileName)
 
 	// we only want the service directories, not any files in the dir
-	fileInfo, e := os.Stat(dirName)
+	fileInfo, err := os.Stat(dirName)
 	if !fileInfo.IsDir() {
 		return nil
+	}
+	if err != nil {
+		return err
 	}
 
 	err := os.MkdirAll(dirName, 0755)
