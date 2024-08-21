@@ -70,7 +70,7 @@ func removePins(env string, service string) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	e := os.Remove(filepath.Join("state", env, "argo", service, "pinned")) // remove pin
+	os.Remove(filepath.Join("state", env, "argo", service, "pinned")) // remove pin
 	return nil
 }
 
@@ -99,7 +99,7 @@ func mainerr() error {
 		if err != nil {
             return err
         }
-		err = setBuildID(ctx, *env, service, *buildID, *buildNum)
+		err = setBuildID(ctx, *env, service, *buildId, *buildNum)
         if err != nil {
             return err
         }
