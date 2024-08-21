@@ -144,9 +144,10 @@ func mainerr() error {
         pinned, err := isServicePinned(*env, service)
         if pinned {
             fmt.Printf("%v is pinned", service) 
-            return nil
         }
-        err = setBuildID(ctx, *env, service, latestBuildID)
+		else {
+			err = setBuildID(ctx, *env, service, latestBuildID)
+		}
         if err != nil {
             return err
         }
