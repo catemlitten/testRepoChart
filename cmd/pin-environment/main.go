@@ -99,7 +99,7 @@ func mainerr() error {
 		if err != nil {
             return err
         }
-		err = setBuildID(ctx, *env, service, buildID, buildNum)
+		err = setBuildID(ctx, *env, service, *buildID, *buildNum)
         if err != nil {
             return err
         }
