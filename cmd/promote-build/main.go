@@ -33,12 +33,13 @@ func getLatestBuildID(ctx context.Context) (string, error) {
 
 type serviceValues struct {
 	ReleaseID string `yaml:"release_id"`
+	GlobalReleaseID string `yaml:"global.release_id"`
+	GlobalBuildId string `yaml:"global.infra_build_num"`
 }
 
 // sets the version inside each service
 func setBuildID(ctx context.Context, env, service, buildID string) error {
 	dirName := path.Join("state", env, "argo", service)
-	l.Printf("%v is the path", dirName)
 	fileName := "version.yml"
 
 	fullFileName := path.Join(dirName, fileName)
@@ -57,7 +58,8 @@ func setBuildID(ctx context.Context, env, service, buildID string) error {
 		return err
 	}
 
-	values := serviceValues{ReleaseID: buildID}
+	// Ok so the logic for getting the circleci build number is a different file so doing this for now
+	values := serviceValues{ReleaseID: buildID, GlobalReleaseID: buildID, GlobalBuildId: buildID}
 
 	serialized, err := yaml.Marshal(&values)
 	if err != nil {
@@ -129,7 +131,6 @@ func mainerr() error {
 	}
 
     // Get a list of services from to update by listing the dirs under the regional env
-	fmt.Println("getting services") 
 	entries, err := os.ReadDir("state/staging/argo")
     if err != nil {
         log.Fatal(err)
@@ -139,7 +140,6 @@ func mainerr() error {
             fmt.Println(e.Name()) // debug, can be removed?
 			services = append(services, e.Name())
     }
-	fmt.Println("in theory my services should show above this line") 
     for _, service := range services {
         pinned, err := isServicePinned(*env, service)
         if pinned {
