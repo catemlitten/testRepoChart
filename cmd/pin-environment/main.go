@@ -100,6 +100,7 @@ func mainerr() error {
 			services = append(services, e.Name())
     }
 
+	// set build id on the services within the env
 	for _, service := range services {
         err := removePins(*env, service)
 		if err != nil {
@@ -110,6 +111,12 @@ func mainerr() error {
             return err
         }
     }
+	// set build id on the env itself
+	err := setBuildID(ctx, *env, "", *buildId, *buildNum)
+	if err != nil {
+		return err
+	}
+        
 
 	return nil
 }
