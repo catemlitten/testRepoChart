@@ -37,7 +37,6 @@ jobs:
         run: |
           CIRCLE_BUILD_NUMBER=123456
           mkdir -p state/${{ inputs.environment }}
-          echo 'release_id: "${{ inputs.build_id }}"\nglobal.releast_id: "${{ inputs.build_id  }}"\nglobal.infra_build_num: "${CIRCLE_BUILD_NUMBER}"' > state/${{ inputs.environment }}/argo/version.yml
           
           go run ./cmd/pin-environment --env ${{ inputs.environment }} --buildId ${{ inputs.build_id }} --buildNum $CIRCLE_BUILD_NUMBER
 
