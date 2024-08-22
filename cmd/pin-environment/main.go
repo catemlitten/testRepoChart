@@ -62,7 +62,14 @@ func setBuildID(ctx context.Context, env, service, buildID string, buildNum stri
 
 // checks if an individual services (ex: doodle) is pinned
 func removePins(env string, service string) error {
-	_, err := os.Stat(filepath.Join("state", env, "argo", service, "pinned"))
+	path, err := os.Stat(filepath.Join("state", env, "argo", service))
+	if !path.IsDir() {
+		return nil // not a service directory
+	}
+	if err != nil {
+		return err
+	}
+	_, err = os.Stat(filepath.Join("state", env, "argo", service, "pinned"))
 	if os.IsNotExist(err) {
 		return nil // not existing means not pinned
 	}
