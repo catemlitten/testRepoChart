@@ -112,7 +112,7 @@ func mainerr() error {
         }
     }
 	// set build id on the env itself
-	err := setBuildID(ctx, *env, "", *buildId, *buildNum)
+	err = setBuildID(ctx, *env, "", *buildId, *buildNum)
 	if err != nil {
 		return err
 	}
