@@ -4,10 +4,26 @@ import (
 	"bytes"
 	"flag"
 	"fmt"
+	"io"
 	"log"
 	"os"
+	"time"
+	"net"
 	"net/http"
 )
+
+var httpClient = &http.Client{
+	Transport: &http.Transport{
+		Dial: (&net.Dialer{
+			Timeout:   5 * time.Second,
+			KeepAlive: 30 * time.Second,
+		}).Dial,
+		TLSHandshakeTimeout:   7 * time.Second,
+		ResponseHeaderTimeout: 9 * time.Second,
+		ExpectContinueTimeout: 5 * time.Second,
+	},
+	Timeout: 12 * time.Second,
+} //borrowed
 
 // can i notate this as secret?
 func notify_swarmia(secret *string) error {
@@ -27,14 +43,14 @@ func notify_swarmia(secret *string) error {
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode == http.StatusUnauthorized {
-		Println("Unauthorized")
+		fmt.Println("Unauthorized")
 		return nil
 	}
 	body, _ := io.ReadAll(resp.Body)
 	if resp.StatusCode != http.StatusOK {
-		Println(resp.StatusCode)
-		Println(string(body))
-		Println(err.Error())
+		fmt.Println(resp.StatusCode)
+		fmt.Println(string(body))
+		fmt.Println(err.Error())
 		return nil
 	}
 	return nil
