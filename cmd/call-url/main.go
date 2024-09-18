@@ -25,7 +25,6 @@ var httpClient = &http.Client{
 	Timeout: 12 * time.Second,
 } //borrowed
 
-// can i notate this as secret?
 func notify_swarmia(secret *string) error {
 	payload_prep := fmt.Sprintf(`{
         "version": %s, 
@@ -36,21 +35,16 @@ func notify_swarmia(secret *string) error {
 	payload := []byte(payload_prep)
 	req, err := http.NewRequest("GET", "https://hook.swarmia.com/deployments", bytes.NewBuffer(payload))
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Add("Authorization", *secret) // I need to set this in the github secrets and pass it here somehow
+	req.Header.Add("Authorization", *secret)
 	resp, err := httpClient.Do(req)
 	if err != nil {
 		return err
 	}
 	defer resp.Body.Close()
-	if resp.StatusCode == http.StatusUnauthorized {
-		fmt.Println("Unauthorized")
-		return nil
-	}
 	body, _ := io.ReadAll(resp.Body)
 	if resp.StatusCode != http.StatusOK {
 		fmt.Println(resp.StatusCode)
 		fmt.Println(string(body))
-		fmt.Println(err.Error())
 		return nil
 	}
 	return nil
