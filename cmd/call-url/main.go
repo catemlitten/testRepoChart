@@ -57,8 +57,4 @@ func main() {
 	for _, env := range os.Environ() {
 		println(env)
 	}
-
-	if err != nil {
-		l.Fatalln(err)
-	}
 }
