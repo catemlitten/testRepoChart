@@ -53,8 +53,9 @@ func notify_swarmia(secret *string) error {
 var l = log.New(os.Stderr, "", 0)
 
 func main() {
-	secret := flag.String("secret", "", "The secret to test")
-	err := notify_swarmia(secret)
+	// secret := flag.String("secret", "", "The secret to test")
+	// err := notify_swarmia(secret)
+	fmt.Printf("Secret? %s", $FAKE_SECRET)
 
 	if err != nil {
 		l.Fatalln(err)
