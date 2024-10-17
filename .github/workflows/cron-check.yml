@@ -12,5 +12,5 @@ jobs:
          - name: pin-service
            shell: bash
            run: |
-            current_date_time=$( date --date="TZ=\"Asia/Taipei\" $TIME" +%F\ %H:%M )
+            current_date_time=$( date "+%H:%M:%S" )
             echo $current_date_time;
