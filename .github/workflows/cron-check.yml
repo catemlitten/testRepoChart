@@ -1,6 +1,7 @@
 on:
     repository_dispatch:
         types: [dependency_update]
+        
 
 name: Webhook in lieu of cron test
 
@@ -12,5 +13,6 @@ jobs:
          - name: pin-service
            shell: bash
            run: |
+            echo ${{github.event.client_payload.env}}
             current_date_time=$( date "+%H:%M:%S" )
             echo $current_date_time;
