@@ -2,15 +2,6 @@ on:
     repository_dispatch:
         types: [dependency_update]
     workflow_dispatch:
-        inputs:
-            environment:
-                type: choice
-                required: true
-                description: The env to send out
-                options:
-                    - staging
-                    - prod
-        
 
 name: Webhook in lieu of cron test
 
