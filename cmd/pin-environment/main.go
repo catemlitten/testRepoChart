@@ -36,7 +36,7 @@ func getEnvType(ctx context.Context, env string) string {
 }
 
 // sets the version inside each service
-func setBuildID(ctx context.Context, env, envType, service, buildID string, buildNum string) error {
+func setBuildID(ctx context.Context, envType, service, buildID string, buildNum string) error {
 	dirName := path.Join("argo-kubernetes-charts", service, "environment_values", envType)
 	fileName := "version.yml"
 
@@ -85,21 +85,19 @@ func mainerr() error {
 	// Get a list of services from to update by listing the dirs under the regional env
 	// Ok so I have envs per service so I need to iterate through each service and into it's correct folder then drop a pin in that
 	dir := "argo-kubernetes-charts"
-	// the unrecovered error of ReadDir failing
-	fileInfo, err := os.Stat(dir)
-	if err != nil {
-		return err
-	}
-	if !fileInfo.IsDir() {
-		return nil
-	}
 
+	// read the files inside of argo-kubernetes-charts
 	entries, err := os.ReadDir(dir)
 	if err != nil {
 		fmt.Printf(err.Error())
 		return err
 	}
-	for _, e := range entries {
+	for entry, e := range entries {
+		fileInfo, err := os.Stat(string(entry))
+		if err != nil {
+			fmt.Printf(err.Error())
+			return err
+		}
 		if !fileInfo.IsDir() {
 			continue
 		}
@@ -111,13 +109,13 @@ func mainerr() error {
 
 	// set build id on the services within the env
 	for _, service := range services {
-		err = setBuildID(ctx, *env, envType, service, *buildId, *buildNum)
+		err = setBuildID(ctx, envType, service, *buildId, *buildNum)
 		if err != nil {
 			return err
 		}
 	}
 	// set build id on the env itself
-	err = setBuildID(ctx, *env, "", "", *buildId, *buildNum)
+	err = setBuildID(ctx, "", "", *buildId, *buildNum)
 	if err != nil {
 		return err
 	}
