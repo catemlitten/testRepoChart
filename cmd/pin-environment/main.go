@@ -36,9 +36,9 @@ func getEnvType(ctx context.Context, env string) string {
 }
 
 // sets the version inside each service
-func setBuildID(ctx context.Context, envType, service, buildID string, buildNum string) error {
+func setBuildID(ctx context.Context, env, envType, service, buildID string, buildNum string) error {
 	dirName := path.Join("argo-kubernetes-charts", service, "environment_values", envType)
-	fileName := "version.yml"
+	fileName := path.Join(env, "version.yml")
 
 	fullFileName := path.Join(dirName, fileName)
 	fmt.Println(fullFileName)
@@ -48,11 +48,6 @@ func setBuildID(ctx context.Context, envType, service, buildID string, buildNum 
 	if !fileInfo.IsDir() {
 		return nil
 	}
-	if err != nil {
-		return err
-	}
-
-	err = os.MkdirAll(dirName, 0755)
 	if err != nil {
 		return err
 	}
@@ -106,13 +101,13 @@ func mainerr() error {
 	// set build id on the services within the env
 	for _, service := range services {
 		fmt.Printf("envtype: %s, server: %s, buildid: %s, buildnum: %s \n", envType, service, *buildId, *buildNum)
-		err = setBuildID(ctx, envType, service, *buildId, *buildNum)
+		err = setBuildID(ctx, *env, envType, service, *buildId, *buildNum)
 		if err != nil {
 			return err
 		}
 	}
 	// set build id on the env itself
-	err = setBuildID(ctx, "", "", *buildId, *buildNum)
+	err = setBuildID(ctx, *env, "", "", *buildId, *buildNum)
 	if err != nil {
 		return err
 	}
