@@ -39,7 +39,6 @@ func getEnvType(ctx context.Context, env string) string {
 func setBuildID(ctx context.Context, env string, envType, service, buildID string, buildNum string) error {
 	dirName := path.Join("argo-kubernetes-charts", service, "environment_values", envType)
 	fileName := env + "_" + service + "_values.yaml"
-	fmt.Printf("env is %s \n", env)
 
 	fullFileName := path.Join(dirName, fileName)
 	fmt.Println(fullFileName)
@@ -61,6 +60,7 @@ func setBuildID(ctx context.Context, env string, envType, service, buildID strin
 		return err
 	}
 
+	fmt.Printf("writing inside of setbuildid %s", fullFileName)
 	err = os.WriteFile(fullFileName, serialized, 0755)
 	if err != nil {
 		return err
@@ -105,7 +105,6 @@ func mainerr() error {
 
 	// set build id on the services within the env
 	for _, service := range services {
-		fmt.Printf("envtype: %s, server: %s, buildid: %s, buildnum: %s \n", envType, service, *buildId, *buildNum)
 		err = setBuildID(ctx, *env, envType, service, *buildId, *buildNum)
 		if err != nil {
 			return err
@@ -113,6 +112,7 @@ func mainerr() error {
 	}
 	// put a pinned file at the root of argo-kubernetes-charts
 	environmentPinFile := path.Join("argo-kubernetes-charts", *env)
+	fmt.Printf("writing %s \n", environmentPinFile)
 	err = os.WriteFile(environmentPinFile, []byte(""), 0755)
 	if err != nil {
 		return err
