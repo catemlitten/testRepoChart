@@ -15,30 +15,30 @@ import (
 
 var l = log.New(os.Stderr, "", 0)
 var services []string
-var env_type := ""
+var envType = ""
 
 type serviceValues struct {
-	ReleaseID string `yaml:"release_id"`
+	ReleaseID       string `yaml:"release_id"`
 	GlobalReleaseID string `yaml:"global.release_id"`
-	GlobalBuildId string `yaml:"global.infra_build_num"`
+	GlobalBuildId   string `yaml:"global.infra_build_num"`
 }
 
 func getEnvType(env) string {
 	if strings.HasPrefix(env, "kibble") {
-		env_type = "kibbles"
+		envType = "kibbles"
 	} else if strings.HasPrefix(env, "dogfood") {
-		env_type = "dogfoods"
+		envType = "dogfoods"
 	} else if strings.HasPrefix(env, "production") {
-		env_type = "productions"
+		envType = "productions"
 	} else {
 		return ""
 	}
-	return env_type
+	return envType
 }
 
 // sets the version inside each service
-func setBuildID(ctx context.Context, env, env_type, service, buildID string, buildNum string) error {
-	dirName := path.Join("argo-kubernetes-charts", service, "environment_values", env_type)
+func setBuildID(ctx context.Context, env, envType, service, buildID string, buildNum string) error {
+	dirName := path.Join("argo-kubernetes-charts", service, "environment_values", envType)
 	fileName := "version.yml"
 
 	fullFileName := path.Join(dirName, fileName)
@@ -103,32 +103,32 @@ func mainerr() error {
 
 	flag.Parse()
 
-    // Get a list of services from to update by listing the dirs under the regional env
+	// Get a list of services from to update by listing the dirs under the regional env
 	// Ok so I have envs per service so I need to iterate through each service and into it's correct folder then drop a pin in that
 	entries, err := os.ReadDir("argo-kubernetes-charts")
-    if err != nil {
-        log.Fatal(err)
-    }
- 
-    for _, e := range entries {
-            fmt.Println(e.Name()) // debug, can be removed?
-			services = append(services, e.Name())
-    }
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for _, e := range entries {
+		fmt.Println(e.Name()) // debug, can be removed?
+		services = append(services, e.Name())
+	}
 
 	// set which env dir (ex: dogfoods) it will go into
-	env_type = getEnvType(env)
+	envType = getEnvType(env)
 
 	// set build id on the services within the env
 	for _, service := range services {
-        err := removePins(*env, service)
+		err := removePins(*env, service)
 		if err != nil {
-            return err
-        }
-		err = setBuildID(ctx, *env, env_type, service, *buildId, *buildNum)
-        if err != nil {
-            return err
-        }
-    }
+			return err
+		}
+		err = setBuildID(ctx, *env, envType, service, *buildId, *buildNum)
+		if err != nil {
+			return err
+		}
+	}
 	// set build id on the env itself
 	err = setBuildID(ctx, *env, "", "", *buildId, *buildNum)
 	if err != nil {
