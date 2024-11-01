@@ -92,15 +92,7 @@ func mainerr() error {
 		fmt.Printf(err.Error())
 		return err
 	}
-	for entry, e := range entries {
-		fileInfo, err := os.Stat(string(entry))
-		if err != nil {
-			fmt.Printf(err.Error())
-			return err
-		}
-		if !fileInfo.IsDir() {
-			continue
-		}
+	for _, e := range entries {
 		services = append(services, e.Name())
 	}
 
