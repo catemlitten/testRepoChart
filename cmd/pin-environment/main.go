@@ -94,6 +94,9 @@ func mainerr() error {
 		return err
 	}
 	for _, e := range entries {
+		if !e.IsDir() {
+			continue
+		}
 		services = append(services, e.Name())
 	}
 
