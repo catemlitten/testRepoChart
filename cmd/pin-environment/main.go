@@ -38,6 +38,7 @@ func getEnvType(ctx context.Context, env string) string {
 // sets the version inside each service
 func setBuildID(ctx context.Context, envType, service, buildID string, buildNum string) error {
 	dirName := path.Join("argo-kubernetes-charts", service, "environment_values", envType)
+	fmt.Println(dirName)
 	fileName := "version.yml"
 
 	fullFileName := path.Join(dirName, fileName)
@@ -101,6 +102,7 @@ func mainerr() error {
 
 	// set build id on the services within the env
 	for _, service := range services {
+		fmt.Printf("envtype: %s, server: %s, buildid: %s, buildnum: %s", envType, service, *buildId, *buildNum)
 		err = setBuildID(ctx, envType, service, *buildId, *buildNum)
 		if err != nil {
 			return err
