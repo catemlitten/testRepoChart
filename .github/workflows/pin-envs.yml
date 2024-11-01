@@ -10,7 +10,7 @@ on:
         required: true
         description: The env to pin
         options:
-          - staging
+          - prestaging
 
 name: Pin env
 
