@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tabby-service
+  namespace: "argocd"
+spec:
+  selector:
+    matchLabels:
+      app: tabby-service
+  template:
+    metadata:
+      labels:
+        app: tabby-service
+    spec:
+      serviceAccountName: eks-argocd
+      containers:
+        - name: tabby-service
+          image: {{ .Values.global.accountID }}.dkr.ecr.{{ .Values.global.region }}.amazonaws.com/hound-artifact:{{ .Values.global.release_id }}
+          env:
+            - name: ENV
+              value: {{ .Values.global.env | quote }}
+            - name: AWS_REGION
+              value: {{ .Values.global.region | quote }}
+          command:
+            - /bin/bash
+            - -c
+            - 'sleep 600'

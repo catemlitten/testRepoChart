@@ -1,0 +1,32 @@
+[
+  {
+    "sha": "08675d9b2ffd58422cb966f9a39ee7a6e394cb78",
+    "author": "Kat Telles",
+    "message": "feat(poodle): add feature flag for users default datasets (#20588)"
+  },
+  {
+    "sha": "a0eb59f7411fd37c13a579f1042d50f39b10dc1b",
+    "author": "Kat Telles",
+    "message": "feat(db): setup users_default_datasets table (#20578)"
+  },
+  {
+    "sha": "420575daa03df3162725744902a01e1b3f1adfe9",
+    "author": "Wolfgang Therrien",
+    "message": "feat(hfo/session-timeline): Make nested groups collapsible. (#20517)"
+  },
+  {
+    "sha": "bb7304fd2852e61829b70ed399792e7c397d4c21",
+    "author": "Jeff Balboni",
+    "message": "fix(poodle): Make overlaid chart table header alignment consistent (#20526)"
+  },
+  {
+    "sha": "04d788147028456424651f8454715175f0b91490",
+    "author": "Elliott Krupa",
+    "message": "chore(poodle): wire template type through to payload test endpoint (#20580)"
+  },
+  {
+    "sha": "33df77fcd2246327cc01e07d44ba1e83e2518ce6",
+    "author": "Jason Harley",
+    "message": "chore(papi): rename trigger_handlers -> triggers (#20593)"
+  }
+]

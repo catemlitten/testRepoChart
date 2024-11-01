@@ -1,0 +1,4 @@
+apiVersion: v2
+name: -service
+version: 0.0.1
+icon: https://fake.svg

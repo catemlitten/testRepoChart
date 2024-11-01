@@ -40,7 +40,7 @@ jobs:
           
           go run ./cmd/pin-environment --env ${{ inputs.environment }} --buildId ${{ inputs.build_id }} --buildNum $CIRCLE_BUILD_NUMBER
 
-          touch state/${{ inputs.environment }}/argo/pinned
+          touch argo-kubernetes-charts/${{ inputs.environment }}_pinned
           git config --global user.email "deploys@blah.io" # this email may or may not exist
           git config --global user.name "Deploy Github Action"
           git add -A

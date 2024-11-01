@@ -1,0 +1,4 @@
+apiVersion: v2
+name: tabby-service
+version: 0.0.1
+icon: https://fake.svg 

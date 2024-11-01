@@ -1,0 +1,5 @@
+global:
+  env: placeholder
+  release_id: placeholder
+  region: placeholder
+  accountID: placeholder

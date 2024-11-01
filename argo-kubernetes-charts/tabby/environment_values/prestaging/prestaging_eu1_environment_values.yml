@@ -1,0 +1,7 @@
+accountID: "196222785479"
+env: kibble-eu1
+region: eu-west-1
+global:
+  env: kibble-eu1
+  accountID: "196222785479"
+  region: eu-west-1

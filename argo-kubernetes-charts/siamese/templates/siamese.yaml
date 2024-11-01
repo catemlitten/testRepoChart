@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: siamese-service
+  namespace: "argocd"
+spec:
+  selector:
+    matchLabels:
+      app: siamese-service
+  template:
+    metadata:
+      labels:
+        app: siamese-service
+    spec:
+      serviceAccountName: eks-argocd
+      containers:
+        - name: siamese-service
+          image: {{ .Values.global.accountID }}.dkr.ecr.{{ .Values.global.region }}.amazonaws.com/hound-artifact:{{ .Values.global.release_id }}
+          env:
+            - name: ENV
+              value: {{ .Values.global.env | quote }}
+            - name: AWS_REGION
+              value: {{ .Values.global.region | quote }}
+          command:
+            - /bin/bash
+            - -c
+            - 'sleep 600'
