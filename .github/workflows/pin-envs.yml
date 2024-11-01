@@ -10,7 +10,7 @@ on:
         required: true
         description: The env to pin
         options:
-          - prestaging
+          - prestaging_us1
 
 name: Pin env
 

@@ -96,6 +96,7 @@ func mainerr() error {
 		if e.Name() == dir {
 			continue // skip writing a values file to the root here
 		}
+		fmt.Printf("appending %s to services \n", e.Name())
 		services = append(services, e.Name())
 	}
 
