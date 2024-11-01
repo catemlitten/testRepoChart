@@ -110,13 +110,6 @@ func mainerr() error {
 			return err
 		}
 	}
-	// put a pinned file at the root of argo-kubernetes-charts
-	environmentPinFile := path.Join("argo-kubernetes-charts", *env)
-	fmt.Printf("writing %s \n", environmentPinFile)
-	err = os.WriteFile(environmentPinFile, []byte(""), 0755)
-	if err != nil {
-		return err
-	}
 
 	return nil
 }
