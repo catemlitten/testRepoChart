@@ -105,13 +105,22 @@ func mainerr() error {
 
 	// Get a list of services from to update by listing the dirs under the regional env
 	// Ok so I have envs per service so I need to iterate through each service and into it's correct folder then drop a pin in that
-	entries, err := os.ReadDir("argo-kubernetes-charts")
+	dir := fmt.Sprintf("argo-kuberenetes-charts/", *env)
+	// the unrecovered error of ReadDir failing
+	fileInfo, err := os.Stat(dir)
 	if err != nil {
-		log.Fatal(err)
+		return err
+	}
+	if !fileInfo.IsDir() {
+		return nil
 	}
 
+	entries, err := os.ReadDir(dir)
+	if err != nil {
+		fmt.Printf(err.Error())
+		return err
+	}
 	for _, e := range entries {
-		fmt.Println(e.Name()) // debug, can be removed?
 		services = append(services, e.Name())
 	}
 
