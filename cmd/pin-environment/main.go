@@ -7,7 +7,6 @@ import (
 	"log"
 	"os"
 	"path"
-	"path/filepath"
 	"strings"
 
 	"gopkg.in/yaml.v3"
@@ -74,26 +73,6 @@ func setBuildID(ctx context.Context, env, envType, service, buildID string, buil
 
 }
 
-// checks if an individual services (ex: doodle) is pinned and removes it
-func removePins(env string, service string) error {
-	path, err := os.Stat(filepath.Join("state", env, "argo", service))
-	if !path.IsDir() {
-		return nil // not a service directory
-	}
-	if err != nil {
-		return err
-	}
-	_, err = os.Stat(filepath.Join("state", env, "argo", service, "pinned"))
-	if os.IsNotExist(err) {
-		return nil // not existing means not pinned
-	}
-	if err != nil {
-		return err
-	}
-	os.Remove(filepath.Join("state", env, "argo", service, "pinned")) // remove pin
-	return nil
-}
-
 func mainerr() error {
 	ctx := context.Background()
 
@@ -132,10 +111,6 @@ func mainerr() error {
 
 	// set build id on the services within the env
 	for _, service := range services {
-		err := removePins(*env, service)
-		if err != nil {
-			return err
-		}
 		err = setBuildID(ctx, *env, envType, service, *buildId, *buildNum)
 		if err != nil {
 			return err
