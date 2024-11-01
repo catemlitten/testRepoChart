@@ -116,7 +116,7 @@ func mainerr() error {
 	}
 
 	// set which env dir (ex: dogfoods) it will go into
-	envType = getEnvType(env)
+	envType = getEnvType(*env)
 
 	// set build id on the services within the env
 	for _, service := range services {
