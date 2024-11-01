@@ -36,7 +36,7 @@ jobs:
         shell: bash
         run: |
           CIRCLE_BUILD_NUMBER=123456
-          mkdir -p state/${{ inputs.environment }}
+          ls
           
           go run ./cmd/pin-environment --env ${{ inputs.environment }} --buildId ${{ inputs.build_id }} --buildNum $CIRCLE_BUILD_NUMBER
 
