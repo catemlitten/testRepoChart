@@ -39,6 +39,7 @@ func getEnvType(ctx context.Context, env string) string {
 func setBuildID(ctx context.Context, env, envType, service, buildID string, buildNum string) error {
 	dirName := path.Join("argo-kubernetes-charts", service, "environment_values", envType)
 	fileName := path.Join(env, "version.yml")
+	fmt.Printf("env is %s \n", env)
 
 	fullFileName := path.Join(dirName, fileName)
 	fmt.Println(fullFileName)
