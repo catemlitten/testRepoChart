@@ -23,12 +23,12 @@ type serviceValues struct {
 	GlobalBuildId   string `yaml:"global.infra_build_num"`
 }
 
-func getEnvType(env) string {
-	if strings.HasPrefix(env, "kibble") {
+func getEnvType(*env) string {
+	if strings.HasPrefix(*env, "kibble") {
 		envType = "kibbles"
-	} else if strings.HasPrefix(env, "dogfood") {
+	} else if strings.HasPrefix(*env, "dogfood") {
 		envType = "dogfoods"
-	} else if strings.HasPrefix(env, "production") {
+	} else if strings.HasPrefix(*env, "production") {
 		envType = "productions"
 	} else {
 		return ""
