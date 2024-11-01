@@ -23,10 +23,10 @@ type serviceValues struct {
 }
 
 func getEnvType(ctx context.Context, env string) string {
-	if strings.HasPrefix(env, "kibble") {
-		envType = "kibbles"
-	} else if strings.HasPrefix(env, "dogfood") {
-		envType = "dogfoods"
+	if strings.HasPrefix(env, "pres") {
+		envType = "prestaging"
+	} else if strings.HasPrefix(env, "stag") {
+		envType = "staging"
 	} else if strings.HasPrefix(env, "production") {
 		envType = "productions"
 	} else {
