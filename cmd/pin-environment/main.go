@@ -105,7 +105,7 @@ func mainerr() error {
 
 	// Get a list of services from to update by listing the dirs under the regional env
 	// Ok so I have envs per service so I need to iterate through each service and into it's correct folder then drop a pin in that
-	dir := fmt.Sprintf("argo-kuberenetes-charts/", *env)
+	dir := "argo-kuberenetes-charts/"
 	// the unrecovered error of ReadDir failing
 	fileInfo, err := os.Stat(dir)
 	if err != nil {
@@ -121,6 +121,9 @@ func mainerr() error {
 		return err
 	}
 	for _, e := range entries {
+		if !fileInfo.IsDir() {
+			continue
+		}
 		services = append(services, e.Name())
 	}
 
