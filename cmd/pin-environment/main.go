@@ -23,7 +23,7 @@ type serviceValues struct {
 	GlobalBuildId   string `yaml:"global.infra_build_num"`
 }
 
-func getEnvType(ctx context.Context, env) string {
+func getEnvType(ctx context.Context, env string) string {
 	if strings.HasPrefix(env, "kibble") {
 		envType = "kibbles"
 	} else if strings.HasPrefix(env, "dogfood") {
