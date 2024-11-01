@@ -105,7 +105,7 @@ func mainerr() error {
 
 	// Get a list of services from to update by listing the dirs under the regional env
 	// Ok so I have envs per service so I need to iterate through each service and into it's correct folder then drop a pin in that
-	dir := "argo-kuberenetes-charts"
+	dir := "argo-kubernetes-charts"
 	// the unrecovered error of ReadDir failing
 	fileInfo, err := os.Stat(dir)
 	if err != nil {
