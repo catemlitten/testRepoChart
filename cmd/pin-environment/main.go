@@ -23,12 +23,12 @@ type serviceValues struct {
 	GlobalBuildId   string `yaml:"global.infra_build_num"`
 }
 
-func getEnvType(*env) string {
-	if strings.HasPrefix(*env, "kibble") {
+func getEnvType(ctx context.Context, env) string {
+	if strings.HasPrefix(env, "kibble") {
 		envType = "kibbles"
-	} else if strings.HasPrefix(*env, "dogfood") {
+	} else if strings.HasPrefix(env, "dogfood") {
 		envType = "dogfoods"
-	} else if strings.HasPrefix(*env, "production") {
+	} else if strings.HasPrefix(env, "production") {
 		envType = "productions"
 	} else {
 		return ""
@@ -116,7 +116,7 @@ func mainerr() error {
 	}
 
 	// set which env dir (ex: dogfoods) it will go into
-	envType = getEnvType(*env)
+	envType = getEnvType(ctx, *env)
 
 	// set build id on the services within the env
 	for _, service := range services {
