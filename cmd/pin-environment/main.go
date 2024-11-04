@@ -4,12 +4,11 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"gopkg.in/yaml.v3"
 	"log"
 	"os"
 	"path"
 	"strings"
-
-	"gopkg.in/yaml.v3"
 )
 
 var l = log.New(os.Stderr, "", 0)
@@ -53,12 +52,41 @@ func setBuildID(ctx context.Context, env string, envType, service, buildID strin
 	}
 
 	// Ok so the logic for getting the circleci build number is a different file so doing this for now
-	values := serviceValues{ReleaseID: buildID, GlobalReleaseID: buildID, GlobalBuildId: buildNum}
+	//values := serviceValues{ReleaseID: buildID, GlobalReleaseID: buildID, GlobalBuildId: buildNum}
 
-	serialized, err := yaml.Marshal(&values)
+	/***
+	release_id: "branch-03b75f0ebe66fe38a3f50634e129ff7945848d62"
+	global:
+	release_id: "branch-03b75f0ebe66fe38a3f50634e129ff7945848d62"
+	infra_build_num: "1489606"
+	***/
+
+	type Global struct {
+		ReleaseId     string `yaml:"release_id"`
+		InfraBuildNum string `yaml:"infra_build_num"`
+	}
+
+	type Release struct {
+		ReleaseId string `yaml:"release_id"`
+		Globals   Global `yaml:"global"`
+	}
+
+	yamlFile := Release{
+		ReleaseId: buildID,
+		Globals: Global{
+			ReleaseId:     buildID,
+			InfraBuildNum: buildNum,
+		},
+	}
+
+	serialized, err := yaml.Marshal(&yamlFile)
 	if err != nil {
 		return err
 	}
+
+	// can I read the value of the string to replace using yaml unmarshal
+	// then use string replace to update it?
+	// fuck it, use bash after the fact to add a comment at the top.
 
 	fmt.Printf("writing inside of setbuildid %s", fullFileName)
 	err = os.WriteFile(fullFileName, serialized, 0755)
