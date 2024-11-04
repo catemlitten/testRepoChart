@@ -51,14 +51,17 @@ jobs:
           fi
 
           # cycle though just directories
-          for d in */ ; do
-            cat > argo-kubernetes-charts/$d/environment_values/$ENVIRONMENT_GROUP/${{ inputs.environment }}_${{ inputs.service }}_values.yaml <<EOL
+          for dir in */ ; do
+            if [ -d "$dir" ]; then
+            # we use dir%/ to remove the trailing slash
+            cat > argo-kubernetes-charts/${dir%/}/environment_values/$ENVIRONMENT_GROUP/${{ inputs.environment }}_${dir%/}_values.yaml <<EOL
             # THIS FILE IS MACHINE WRITTEN DO NOT EDIT
             release_id: "${{ inputs.build_id }}"
             global:
               release_id: "${{ inputs.build_id}}"
               infra_build_num: "${CIRCLE_BUILD_NUMBER}"
-            EOL
+          EOL
+            fi
             done
 
           # cat > argo-kubernetes-charts/${{ inputs.service }}/environment_values/$ENVIRONMENT_GROUP/${{ inputs.environment }}_${{ inputs.service }}_values.yaml <<EOL
