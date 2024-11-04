@@ -55,7 +55,7 @@ jobs:
           for dir in */ ; do
             if [ -d "$dir" ]; then
             # we use dir%/ to remove the trailing slash
-            cat > argo-kubernetes-charts/${dir%/}/environment_values/$ENVIRONMENT_GROUP/${{ inputs.environment }}_${dir%/}_values.yaml <<EOL
+            cat > ${dir%/}/environment_values/$ENVIRONMENT_GROUP/${{ inputs.environment }}_${dir%/}_values.yaml <<EOL
             # THIS FILE IS MACHINE WRITTEN DO NOT EDIT
             release_id: "${{ inputs.build_id }}"
             global:
