@@ -1,3 +1,4 @@
 release_id: "454564"
-global.release_id: "454564"
-global.infra_build_num: "123456"
+global:
+    release_id: "454564"
+    infra_build_num: "123456"
