@@ -35,51 +35,52 @@ jobs:
       - name: pin-service
         shell: bash
         run: |
-          CIRCLE_BUILD_NUMBER=123456
+          echo ${{ github.event.client_payload.env }}
+          # CIRCLE_BUILD_NUMBER=123456
           
-          #go run ./cmd/pin-environment --env ${{ inputs.environment }} --buildId ${{ inputs.build_id }} --buildNum $CIRCLE_BUILD_NUMBER
+          # #go run ./cmd/pin-environment --env ${{ inputs.environment }} --buildId ${{ inputs.build_id }} --buildNum $CIRCLE_BUILD_NUMBER
 
-          if [[ ${{ inputs.environment }} =~ "pres" ]]; then
-            ENVIRONMENT_GROUP="prestaging"
-          elif [[ ${{ inputs.environment }} =~ "staging" ]]; then
-            ENVIRONMENT_GROUP="staging"
-          elif [[ ${{ inputs.environment }} =~ "production" ]]; then
-            ENVIRONMENT_GROUP="production"
-          else
-            echo "${{ inputs.environment }} is not a valid service"
-            exit 1;
-          fi
+          # if [[ ${{ inputs.environment }} =~ "pres" ]]; then
+          #   ENVIRONMENT_GROUP="prestaging"
+          # elif [[ ${{ inputs.environment }} =~ "staging" ]]; then
+          #   ENVIRONMENT_GROUP="staging"
+          # elif [[ ${{ inputs.environment }} =~ "production" ]]; then
+          #   ENVIRONMENT_GROUP="production"
+          # else
+          #   echo "${{ inputs.environment }} is not a valid service"
+          #   exit 1;
+          # fi
 
-          # cycle though just directories
-          cd argo-kubernetes-charts
-          for dir in */ ; do
-            if [ -d "$dir" ]; then
-            # we use dir%/ to remove the trailing slash
-            cat > ${dir%/}/environment_values/$ENVIRONMENT_GROUP/${{ inputs.environment }}_${dir%/}_values.yaml <<EOL
-          # THIS FILE IS MACHINE WRITTEN DO NOT EDIT
-          release_id: "${{ inputs.build_id }}"
-          global:
-            release_id: "${{ inputs.build_id}}"
-            infra_build_num: "${CIRCLE_BUILD_NUMBER}"
-          EOL
-            fi
-          done
-          cd ..
+          # # cycle though just directories
+          # cd argo-kubernetes-charts
+          # for dir in */ ; do
+          #   if [ -d "$dir" ]; then
+          #   # we use dir%/ to remove the trailing slash
+          #   cat > ${dir%/}/environment_values/$ENVIRONMENT_GROUP/${{ inputs.environment }}_${dir%/}_values.yaml <<EOL
+          # # THIS FILE IS MACHINE WRITTEN DO NOT EDIT
+          # release_id: "${{ inputs.build_id }}"
+          # global:
+          #   release_id: "${{ inputs.build_id}}"
+          #   infra_build_num: "${CIRCLE_BUILD_NUMBER}"
+          # EOL
+          #   fi
+          # done
+          # cd ..
 
-          # cat > argo-kubernetes-charts/${{ inputs.service }}/environment_values/$ENVIRONMENT_GROUP/${{ inputs.environment }}_${{ inputs.service }}_values.yaml <<EOL
+          # # cat > argo-kubernetes-charts/${{ inputs.service }}/environment_values/$ENVIRONMENT_GROUP/${{ inputs.environment }}_${{ inputs.service }}_values.yaml <<EOL
 
-          cat > argo-kubernetes-charts/${{ inputs.environment }}_${{ inputs.service }}_values.yaml <<EOL
-          # THIS FILE IS MACHINE WRITTEN DO NOT EDIT
-          release_id: "${{ inputs.build_id }}"
-          global:
-            release_id: "${{ inputs.build_id}}"
-            infra_build_num: "${CIRCLE_BUILD_NUMBER}"
-          EOL
+          # cat > argo-kubernetes-charts/${{ inputs.environment }}_${{ inputs.service }}_values.yaml <<EOL
+          # # THIS FILE IS MACHINE WRITTEN DO NOT EDIT
+          # release_id: "${{ inputs.build_id }}"
+          # global:
+          #   release_id: "${{ inputs.build_id}}"
+          #   infra_build_num: "${CIRCLE_BUILD_NUMBER}"
+          # EOL
 
-          touch argo-kubernetes-charts/${{ inputs.environment }}_pinned
+          # touch argo-kubernetes-charts/${{ inputs.environment }}_pinned
           
-          git config --global user.email "deploys@blah.io" # this email may or may not exist
-          git config --global user.name "Deploy Github Action"
-          git add -A
-          git commit -m "Pinning ${{ inputs.build_id }} for ${{ inputs.environment }}"
-          git push origin main
+          # git config --global user.email "deploys@blah.io" # this email may or may not exist
+          # git config --global user.name "Deploy Github Action"
+          # git add -A
+          # git commit -m "Pinning ${{ inputs.build_id }} for ${{ inputs.environment }}"
+          # git push origin main
