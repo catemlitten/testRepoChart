@@ -9,7 +9,7 @@ jobs:
     print-time:
         runs-on:
             - ubuntu-latest
-        if: ${{ github.event.client_payload.env }} == 'dogfood_us1'
+        if: ${{ github.event.client_payload.env == 'dogfood_us1' }} 
         steps:
          - name: pin-service
            shell: bash
