@@ -17,3 +17,4 @@ jobs:
             echo ${{github.event.client_payload.env}}
             current_date_time=$( date "+%H:%M:%S" )
             echo $current_date_time;
+            echo "test"
