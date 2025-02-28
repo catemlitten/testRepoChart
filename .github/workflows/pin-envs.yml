@@ -92,4 +92,4 @@ jobs:
         run: |
             touch testfile2.txt
             git status
-            yq
+            yq .env argo-kubernetes-charts/siamese/environment_values/prestaging/prestaging_eu1_environment_values.yml
