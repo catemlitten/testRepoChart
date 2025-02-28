@@ -92,3 +92,4 @@ jobs:
         run: |
             touch testfile2.txt
             git status
+            yq
