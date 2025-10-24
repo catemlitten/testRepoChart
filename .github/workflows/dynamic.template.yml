@@ -1,4 +1,4 @@
-name: Deployment
+name: Dynamic pinning
 
 on:
  workflow_dispatch:
