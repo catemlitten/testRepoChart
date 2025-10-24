@@ -1,0 +1,33 @@
+name: Deployment
+
+on:
+ workflow_dispatch:
+   inputs:
+     version:
+       description: 'Service to pin'
+       required: true
+       type: choice
+       options:
+         $SERVICE_LIST
+jobs:
+ deployment:
+   runs-on: ubuntu-latest
+   name: "Pinning : ${{ inputs.version }} 🌍"
+   steps:
+    - name: Install SSH Client
+      uses: webfactory/ssh-agent@v0.9.0
+      with:
+        ssh-private-key: ${{ secrets.CHART_DEPLOY_NO_PHRASE }}
+
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        ref: 'main'
+        ssh-key: ${{ secrets.CHART_DEPLOY_NO_PHRASE }}
+        fetch-depth: 1
+        persist-credentials: true
+
+    - name: pin-service
+      shell: bash
+      run: |
+        echo ${{ inputs.version }}
