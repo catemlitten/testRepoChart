@@ -1,0 +1,27 @@
+name: Generate ECR Image
+
+on:
+  pull_request_target:
+    types:
+      - closed
+    branches:
+      - main
+jobs:
+  get-service-list:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.CHART_DEPLOY_NO_PHRASE }}
+      - name: Get All Images On ECR
+        run: |
+            # cycle though just directories
+            cd argo-kubernetes-charts
+            for dir in */ ; do
+                if [ -d "$dir" ]; then
+                # we use dir%/ to remove the trailing slash
+                output+="dir%/\n"
+            fi
+            done
+          sed "s/\$SERVICE_LIST/$output/g" $GITHUB_WORKSPACE/.github/workflows/deployment.template.yml > $GITHUB_WORKSPACE/.github/workflows/deployment.yml
