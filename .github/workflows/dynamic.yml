@@ -1,4 +1,4 @@
-name: Generate ECR Image
+name: Dynamic generation
 
 on:
   pull_request_target:
