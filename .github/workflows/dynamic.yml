@@ -25,6 +25,7 @@ jobs:
                 if [ -d "$dir" ]; then
                 # we use dir%/ to remove the trailing slash
                 echo $dir
+                echo "wtf github"
                 output+="- ${dir%/}\n   "
             fi
             done
