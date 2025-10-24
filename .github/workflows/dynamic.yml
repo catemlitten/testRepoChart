@@ -24,6 +24,7 @@ jobs:
             for dir in */ ; do
                 if [ -d "$dir" ]; then
                 # we use dir%/ to remove the trailing slash
+                echo $dir
                 output+="dir%/\n"
             fi
             done
