@@ -25,7 +25,7 @@ jobs:
                 if [ -d "$dir" ]; then
                 # we use dir%/ to remove the trailing slash
                 echo $dir
-                output+="${dir%/}\n"
+                output+="- ${dir%/}\n   "
             fi
             done
             sed "s/\$SERVICE_LIST/$output/g" "$GITHUB_WORKSPACE/.github/workflows/dynamic.template.yml" > "$GITHUB_WORKSPACE/.github/workflows/dynamic.yml"
