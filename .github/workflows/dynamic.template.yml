@@ -3,12 +3,19 @@ name: Deployment
 on:
  workflow_dispatch:
    inputs:
-     version:
-       description: 'Service to pin'
-       required: true
-       type: choice
-       options:
-         $SERVICE_LIST
+    version:
+        description: 'Service to pin'
+        required: true
+        type: choice
+        options:
+            $SERVICE_LIST
+    example:
+        description: 'something else'
+        required: true
+        type: choice
+        options:
+            - option_1
+            - option_2
 jobs:
  deployment:
    runs-on: ubuntu-latest
