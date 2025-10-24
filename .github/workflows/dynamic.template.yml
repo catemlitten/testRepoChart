@@ -8,8 +8,7 @@ on:
         required: true
         type: choice
         options:
-            - siamese
-            - tabby
+            $SERVICE_LIST
             
     example:
         description: 'something else'
