@@ -13,7 +13,10 @@ jobs:
       - name: checkout code
         uses: actions/checkout@v3
         with:
-          token: ${{ secrets.CHART_DEPLOY_NO_PHRASE }}
+            ref: 'main'
+            ssh-key: ${{ secrets.CHART_DEPLOY_NO_PHRASE }}
+            fetch-depth: 1
+            persist-credentials: true
       - name: Get All Images On ECR
         run: |
             # cycle though just directories
@@ -24,4 +27,4 @@ jobs:
                 output+="dir%/\n"
             fi
             done
-          sed "s/\$SERVICE_LIST/$output/g" $GITHUB_WORKSPACE/.github/workflows/deployment.template.yml > $GITHUB_WORKSPACE/.github/workflows/deployment.yml
+            sed "s/\$SERVICE_LIST/$output/g" $GITHUB_WORKSPACE/.github/workflows/deployment.template.yml > $GITHUB_WORKSPACE/.github/workflows/deployment.yml
